@@ -1,0 +1,6 @@
+unit: sectors
+
+/dev/loop2p1 : start=        1, size=     6695, Id=83
+/dev/loop2p2 : start=        0, size=        0, Id= 0
+/dev/loop2p3 : start=        0, size=        0, Id= 0
+/dev/loop2p4 : start=        0, size=        0, Id= 0
