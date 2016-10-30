@@ -2,6 +2,15 @@ FROM centos:centos7
 
 RUN yum -y install --setopt=tsflags=nodocs epel-release && \
     yum -y update && yum clean all && \
+    yum -y install gcc && \
+    yum -y install gcc-c++ && \
+    yum -y install git && \
+    yum -y install wget && \
+    yum -y install e4fsprogs && \
+    wget http://stedolan.github.io/jq/download/linux64/jq && \
+    chmod +x ./jq && \
+    cp jq /usr/bin && \
+    mkdir /tmp/hydrate && \
     yum -y install openssl curl which gnupg2 openssh sudo python27 openssh-clients expect
 
 RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
@@ -50,6 +59,7 @@ RUN curl -L https://get.rvm.io | bash -s stable
 USER root
 RUN /bin/bash -l -c "rvm requirements"
 USER hsmclient
+RUN mkdir $HOME/Orchestration
 RUN echo "source ~/.profile" >> $HOME/.bash_profile
 RUN /bin/bash -l -c "rvm install ruby-$RUBY_VERSION"
 RUN /bin/bash -l -c "gem install bundle"
