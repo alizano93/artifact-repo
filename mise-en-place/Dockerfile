@@ -92,6 +92,6 @@ ARG bucket=cloudhsm-ssh-keypair
 ARG key=hsm-client-key
 ARG passfile=passphrase.yml
 ARG ip_address=10.0.201.209
-+WORKDIR $HOME/Orchestration
-+ENTRYPOINT ["/home/hsmclient/Orchestration/Orchestration-mise.sh"]
+WORKDIR $HOME/Orchestration
+ENTRYPOINT ["/home/hsmclient/Orchestration/Orchestration-mise.sh"]
 #ENTRYPOINT ["hsmclient-setup.rb" -d "$HOME" -b ${bucket} -k ${key} -u ${user} -i ${ip_address}]
