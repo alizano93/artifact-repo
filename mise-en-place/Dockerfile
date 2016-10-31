@@ -60,6 +60,7 @@ USER root
 RUN /bin/bash -l -c "rvm requirements"
 USER hsmclient
 RUN mkdir $HOME/Orchestration
+RUN git clone https://github.com/alizano93/artifact-repo.git $HOME/Orchestration && git fetch && git checkout miseEnPlace
 RUN echo "source ~/.profile" >> $HOME/.bash_profile
 RUN /bin/bash -l -c "rvm install ruby-$RUBY_VERSION"
 RUN /bin/bash -l -c "gem install bundle"
