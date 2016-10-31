@@ -20,7 +20,7 @@ int main(int argc, char** argv){
     myOut.open (fullPath.c_str(), ios::ate);
 
     for (list<string>::iterator it=file_list.begin(); it != file_list.end(); ++it){
-        cout <<"++++"<<*it << "\n";
+      //  cout <<"++++"<<*it << "\n";
         string line;
 		string readPath = *it;
         ifstream myfile;
@@ -29,7 +29,7 @@ int main(int argc, char** argv){
         {
           while ( getline (myfile,line) )
           {
-            cout<< line << "\n";
+        //    cout<< line << "\n";
             myOut << line << '\n';
           }
           myfile.close();
