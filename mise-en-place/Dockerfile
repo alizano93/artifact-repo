@@ -10,7 +10,6 @@ RUN yum -y install --setopt=tsflags=nodocs epel-release && \
     wget http://stedolan.github.io/jq/download/linux64/jq && \
     chmod +x ./jq && \
     cp jq /usr/bin && \
-    mkdir /tmp/hydrate && \
     yum -y install openssl curl which gnupg2 openssh sudo python27 openssh-clients expect
 
 RUN curl -O https://bootstrap.pypa.io/get-pip.py && \
@@ -50,7 +49,7 @@ RUN chown ${user} -R /usr/safenet/lunaclient/
 RUN rm -rf /usr/src/luna-packages
 
 USER hsmclient
-
+RUN mkdir /tmp/hydrate
 ENV RUBY_VERSION 2.3.1
 
 # install RVM, Ruby, and Bundler
