@@ -8,9 +8,9 @@ HYDRATE_UUID=uuid
 CATIDS=catids
 #Pull message from work queue
 RESPONSE=$(curl -H "Content-Type: application/json" -X GET http://$DOCKER_HOST:8080/mise-en-place/pull)
-M=$(echo $R|jq '.message')
+M=$(echo $RESPONSE|jq '.message')
 
-if [ -z $M ] || [ $M == null ]
+if [ -z "$M" ] || [ "$M" == null ]
 then
 	exit 1
 fi
@@ -23,7 +23,7 @@ CATIDS=$(echo $RESPONSE|jq '.message.catalogIds | join(" ")')
 #
 #
 echo "*** 1 Mounting Hydrate directory as tmpfs***"
-curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","mount -t tmpfs none /tmp/hydrate"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
+curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","mount -t tmpfs none -0 size=10g /tmp/hydrate"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
 if [ "$?" -gt 0 ]; then
  echo "*** Something is wrong with the TMPFS mount***"
 fi
