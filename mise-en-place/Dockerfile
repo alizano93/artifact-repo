@@ -54,10 +54,10 @@ USER hsmclient
 ENV RUBY_VERSION 2.3.1
 
 # install RVM, Ruby, and Bundler
-curl -sSL https://get.rvm.io | bash -s stable
-source ~/.rvm/scripts/rvm
-rvm install 2.3.1
-rvm use 2.3.1 --default
+RUN curl -sSL https://get.rvm.io | bash -s stable && \
+source ~/.rvm/scripts/rvm && \
+rvm install 2.3.1 && \
+rvm use 2.3.1 --default && \
 ruby -v
 
 #RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
