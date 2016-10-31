@@ -15,11 +15,12 @@ then
 	exit 1
 fi
 HYDRATE_UUID=$(echo $RESPONSE|jq '.message.hydrateUUID')
-
+echo "uuid = $HYDRATE_UUID"
 #
 #get all variables for datastager
 #
 CATIDS=$(echo $RESPONSE|jq '.message.catalogIds | join(" ")')
+echo "catids =$CATIDS"
 #
 #
 echo "*** 1 Mounting Hydrate directory as tmpfs***"
@@ -64,12 +65,12 @@ ACTION=INVOKE_ORTHO_REC
 java -jar audit-cli-client-0.0.1-jar-with-dependencies.jar -huuid $HYDRATE_UUID -utype $USER_TYPE -name $NAME -action $ACTION -metadata
 
 #Data stager call
-java -jar hydrate-data-stager-0.0.1-jar-with-dependencies.jar -nItar -platform p2020 -env dev -catId $CATIDS -path /tmp/hydrate/nItar
+java -jar hydrate-data-stager-0.0.1-jar-with-dependencies.jar -nItar -platform p2020 -env dev -catId $CATIDS -path /tmp/hydrate/nItar/
 
 sleep 2
 g++ -o testRectifier testRectifier.cpp
 echo "**** 8 Writing a file to tmpfs directory and heap/stack with a test process ****"
-./testRectifier $HYDRATE_TEMP_PATH/nItar output & PID=$!
+./testRectifier $HYDRATE_TEMP_PATH/nItar/ output/ & PID=$!
 #echo "test" > $HYDRATE_TEMP_PATH/my_in_memory_file
 
 sleep 1
