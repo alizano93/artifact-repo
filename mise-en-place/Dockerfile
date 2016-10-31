@@ -54,23 +54,23 @@ USER hsmclient
 ENV RUBY_VERSION 2.3.1
 
 # install RVM, Ruby, and Bundler
+
+RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+RUN curl -L https://get.rvm.io | bash -s stable
+USER root
+RUN /bin/bash -l -c "rvm requirements"
+USER hsmclient
+RUN mkdir $HOME/Orchestration
+WORKDIR $HOME/Orchestration
+RUN git clone https://github.com/alizano93/artifact-repo.git . && git fetch && git checkout miseEnPlace && chmod u+x Orchestration-mise.sh
+RUN echo "source ~/.profile" >> $HOME/.bash_profile
+RUN /bin/bash -l -c "rvm install ruby-$RUBY_VERSION"
+RUN /bin/bash -l -c "gem install bundle"
 RUN curl -sSL https://get.rvm.io | bash -s stable && \
 source ~/.rvm/scripts/rvm && \
 rvm install 2.3.1 && \
 rvm use 2.3.1 --default && \
 ruby -v
-
-#RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
-#RUN curl -L https://get.rvm.io | bash -s stable
-USER root
-#RUN /bin/bash -l -c "rvm requirements"
-USER hsmclient
-RUN mkdir $HOME/Orchestration
-WORKDIR $HOME/Orchestration
-RUN git clone https://github.com/alizano93/artifact-repo.git . && git fetch && git checkout miseEnPlace && chmod u+x Orchestration-mise.sh
-#RUN echo "source ~/.profile" >> $HOME/.bash_profile
-#RUN /bin/bash -l -c "rvm install ruby-$RUBY_VERSION"
-#RUN /bin/bash -l -c "gem install bundle"
 RUN gem install bundler
 
 USER root
