@@ -54,16 +54,24 @@ USER hsmclient
 ENV RUBY_VERSION 2.3.1
 
 # install RVM, Ruby, and Bundler
-RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
-RUN curl -L https://get.rvm.io | bash -s stable
+curl -sSL https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+rvm install 2.3.1
+rvm use 2.3.1 --default
+ruby -v
+
+#RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3
+#RUN curl -L https://get.rvm.io | bash -s stable
 USER root
-RUN /bin/bash -l -c "rvm requirements"
+#RUN /bin/bash -l -c "rvm requirements"
 USER hsmclient
 RUN mkdir $HOME/Orchestration
-RUN git clone https://github.com/alizano93/artifact-repo.git $HOME/Orchestration && git fetch && git checkout miseEnPlace
-RUN echo "source ~/.profile" >> $HOME/.bash_profile
-RUN /bin/bash -l -c "rvm install ruby-$RUBY_VERSION"
-RUN /bin/bash -l -c "gem install bundle"
+WORKDIR $HOME/Orchestration
+RUN git clone https://github.com/alizano93/artifact-repo.git . && git fetch && git checkout miseEnPlace && chmod u+x Orchestration-mise.sh
+#RUN echo "source ~/.profile" >> $HOME/.bash_profile
+#RUN /bin/bash -l -c "rvm install ruby-$RUBY_VERSION"
+#RUN /bin/bash -l -c "gem install bundle"
+gem install bundler
 
 USER root
 COPY hsmclient-provisioner $HOME/hsmclient-provisioner
@@ -84,5 +92,6 @@ ARG bucket=cloudhsm-ssh-keypair
 ARG key=hsm-client-key
 ARG passfile=passphrase.yml
 ARG ip_address=10.0.201.209
-
++WORKDIR $HOME/Orchestration
++ENTRYPOINT ["/home/hsmclient/Orchestration/Orchestration-mise.sh"]
 #ENTRYPOINT ["hsmclient-setup.rb" -d "$HOME" -b ${bucket} -k ${key} -u ${user} -i ${ip_address}]
