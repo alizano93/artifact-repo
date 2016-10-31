@@ -16,12 +16,15 @@ int main(int argc, char** argv){
     listFile("",arg);
 
     ofstream myOut;
-    myOut.open (path+"/test.1B", ios::ate);
+	string fullPath = path+"/test.1B";
+    myOut.open (fullPath.c_str(), ios::ate);
 
     for (list<string>::iterator it=file_list.begin(); it != file_list.end(); ++it){
         cout <<"++++"<<*it << "\n";
         string line;
-        ifstream myfile (*it);
+		string readPath = *it;
+        ifstream myfile;
+		myfile.open(readPath.c_str(), ios::in);
         if (myfile.is_open())
         {
           while ( getline (myfile,line) )
