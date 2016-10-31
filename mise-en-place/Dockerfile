@@ -71,7 +71,7 @@ RUN git clone https://github.com/alizano93/artifact-repo.git . && git fetch && g
 #RUN echo "source ~/.profile" >> $HOME/.bash_profile
 #RUN /bin/bash -l -c "rvm install ruby-$RUBY_VERSION"
 #RUN /bin/bash -l -c "gem install bundle"
-gem install bundler
+RUN gem install bundler
 
 USER root
 COPY hsmclient-provisioner $HOME/hsmclient-provisioner
