@@ -8,6 +8,11 @@ HYDRATE_UUID=uuid
 CATIDS=catids
 #Pull message from work queue
 RESPONSE=$(curl -H "Content-Type: application/json" -X GET http://$DOCKER_HOST:8080/mise-en-place/pull)
+M=$(echo $R|jq '.message')
+if [ $M == null ]
+then
+	exit 1
+fi
 HYDRATE_UUID=$(echo $RESPONSE|jq '.message.hydrateUUID')
 
 #
