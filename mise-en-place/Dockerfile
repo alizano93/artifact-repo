@@ -60,9 +60,6 @@ RUN curl -L https://get.rvm.io | bash -s stable
 USER root
 RUN /bin/bash -l -c "rvm requirements"
 USER hsmclient
-RUN mkdir $HOME/Orchestration
-WORKDIR $HOME/Orchestration
-RUN git clone https://github.com/alizano93/artifact-repo.git . && git fetch && git checkout miseEnPlace && chmod u+x Orchestration-mise.sh
 RUN echo "source ~/.profile" >> $HOME/.bash_profile
 RUN /bin/bash -l -c "rvm install ruby-$RUBY_VERSION"
 RUN /bin/bash -l -c "rvm use 2.3.1 --default"
@@ -73,6 +70,9 @@ RUN /bin/bash -l -c "gem install bundler"
 #rvm use 2.3.1 --default && \
 #ruby -v
 #RUN gem install bundler
+RUN mkdir $HOME/Orchestration
+WORKDIR $HOME/Orchestration
+RUN git clone https://github.com/alizano93/artifact-repo.git . && git fetch && git checkout miseEnPlace && chmod u+x Orchestration-mise.sh
 
 USER root
 COPY hsmclient-provisioner $HOME/hsmclient-provisioner
