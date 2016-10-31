@@ -92,6 +92,9 @@ java -jar audit-cli-client-0.0.1-jar-with-dependencies.jar -huuid $HYDRATE_UUID 
 #DATA PUSHER
 java -jar hydrate-data-pusher-0.0.1-jar-with-dependencies.jar -uf -b hydrate-resultant-bucket -k output/ -u output/ -i $HYDRATE_UUID
 
+#delte from quque
+curl -H "Content-Type: application/json" -X POST -d $HYDRATE_UUID http://$DOCKER_HOST:8080/mise-en-place/delete
+
 #SNS NOTIFICATION
 #RESULT=$(curl -H "Content-Type: application/json" -X GET https://zde98x8x30.execute-api.us-east-1.amazonaws.com/dev/hydratation?uuid=$HYDRATE_UUID)
 #RESULT_URL=$(echo $RESULT | jq '.result')
