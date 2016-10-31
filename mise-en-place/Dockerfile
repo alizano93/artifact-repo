@@ -65,7 +65,7 @@ WORKDIR $HOME/Orchestration
 RUN git clone https://github.com/alizano93/artifact-repo.git . && git fetch && git checkout miseEnPlace && chmod u+x Orchestration-mise.sh
 RUN echo "source ~/.profile" >> $HOME/.bash_profile
 RUN /bin/bash -l -c "rvm install ruby-$RUBY_VERSION"
-RUN /bin/bash -l -c "gem install bundle"
+RUN /bin/bash -l -c "gem install bundler"
 #RUN curl -sSL https://get.rvm.io | bash -s stable && \
 #source ~/.rvm/scripts/rvm && \
 #rvm install 2.3.1 && \
