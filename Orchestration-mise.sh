@@ -9,7 +9,8 @@ CATIDS=catids
 #Pull message from work queue
 RESPONSE=$(curl -H "Content-Type: application/json" -X GET http://$DOCKER_HOST:8080/mise-en-place/pull)
 M=$(echo $R|jq '.message')
-if [ $M == null ]
+
+if [ -z $M ] || [ $M == null ]
 then
 	exit 1
 fi
@@ -95,7 +96,7 @@ ACTION=TRANSACTION_RELEASED
 java -jar audit-cli-client-0.0.1-jar-with-dependencies.jar -huuid $HYDRATE_UUID -utype $USER_TYPE -name $NAME -action $ACTION -metadata
 
 #DATA PUSHER
-java -jar hydrate-data-pusher-0.0.1-jar-with-dependencies.jar -uf -b hydrate-resultant-bucket -k output/ -u output/ -i $HYDRATE_UUID
+java -jar hydrate-data-pusher-0.0.1-jar-with-dependencies.jar -um -b hydrate-resultant-bucket -k output/ -u output/ -i $HYDRATE_UUID
 
 #delte from quque
 curl -H "Content-Type: application/json" -X POST -d $HYDRATE_UUID http://$DOCKER_HOST:8080/mise-en-place/delete
