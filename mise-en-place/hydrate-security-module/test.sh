@@ -2,7 +2,7 @@
  
 salogin -c -s 1 -i 1:1 
 salogin -o -s 1 -i 1:1
-export KEY_STORE_PASSWORD="password2"
+export KEY_STORE_PASSWORD="S3kur3dPazz"
 export LUNA_LOGIN_PASSWORD="S3kur3dPazz"
 
 export MESSAGE="This is a test `date`" 
