@@ -8,6 +8,7 @@ rvm use 2.3.1 --default
 ruby -v
 gem install bundler
 
+cd mise-en-place
 source ~/.rvm/scripts/rvm
 
 eval `ssh-agent`
@@ -17,7 +18,7 @@ eval `ssh-agent`
                                            -p passphrase.yml \
                                            -d /home/hsmclient \
                                            -i 10.0.201.209
-
+cd ..
 DOCKER_HOST=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
 DOCKER_CONTAINER=$HOSTNAME
 
