@@ -12,7 +12,7 @@ cd mise-en-place
 source ~/.rvm/scripts/rvm
 
 eval `ssh-agent`
-./mise-en-place/hsmclient-provisioner/hsmclient-setup.rb -b cloudhsm-ssh-keypair \
+./hsmclient-provisioner/hsmclient-setup.rb -b cloudhsm-ssh-keypair \
                                            -k hsm-client-key \
                                            -u hsmclient \
                                            -p passphrase.yml \
