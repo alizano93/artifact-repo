@@ -34,7 +34,7 @@ echo "catids =$CATIDS"
 #
 #
 echo "*** 1 Mounting Hydrate directory as tmpfs***"
-curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","mount -t tmpfs none -0 size=10g /tmp/hydrate"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
+curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","mount -t tmpfs none -o size=10g /tmp/hydrate"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
 if [ "$?" -gt 0 ]; then
  echo "*** Something is wrong with the TMPFS mount***"
 fi
