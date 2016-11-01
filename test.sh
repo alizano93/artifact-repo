@@ -20,7 +20,7 @@ export CLIENT_METADATA="-m request-accepted-date=`date +%Y-%m-%dT%H:%M:%S%:z` ho
 java -jar hydrate-data-stager-0.0.1-jar-with-dependencies.jar -itar -p ${OUTPUT_FILE} -c ${SECURE_DATA_NAME1} ${SECURE_DATA_NAME2}
 #java -jar hydrate-data-stager-0.0.1-jar-with-dependencies.jar -itar -p ${OUTPUT_FILE} -c ${SECURE_DATA_NAME1}
 
-diff "${INPUT_FILE}" "${OUTPUT_FILE}" && echo "It went all good, passed smoke test" 
+#diff "${INPUT_FILE}" "${OUTPUT_FILE}" && echo "It went all good, passed smoke test" 
 #java  -Xdebug -Xrunjdwp:transport=dt_socket,address=8888,server=y,suspend=n  -jar hydrate-security-module-0.0.1-SNAPSHOT-jar-with-dependencies.jar 
 #!/bin/sh
 
