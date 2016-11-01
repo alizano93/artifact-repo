@@ -1,4 +1,14 @@
 #!/bin/bash
+#Installing ruby
+
+curl -sSL https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+rvm install 2.3.1
+rvm use 2.3.1 --default
+ruby -v
+gem install bundler
+
+
 DOCKER_HOST=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
 DOCKER_CONTAINER=$HOSTNAME
 
@@ -28,6 +38,8 @@ curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","para
 if [ "$?" -gt 0 ]; then
  echo "*** Something is wrong with the TMPFS mount***"
 fi
+
+curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","chown -R hsmclient:hsmclient /tmp/hydrate"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
 
 echo "*** 2 Checking if Hydrate directory is actually tmpfs***"
 df -T /tmp/hydrate
@@ -69,6 +81,7 @@ java -jar hydrate-data-stager-0.0.1-jar-with-dependencies.jar -nItar -platform p
 
 sleep 2
 g++ -o testRectifier testRectifier.cpp
+mkdir output
 echo "**** 8 Writing a file to tmpfs directory and heap/stack with a test process ****"
 ./testRectifier $HYDRATE_TEMP_PATH/nItar/ output/ & PID=$!
 #echo "test" > $HYDRATE_TEMP_PATH/my_in_memory_file
@@ -100,7 +113,8 @@ java -jar audit-cli-client-0.0.1-jar-with-dependencies.jar -huuid $HYDRATE_UUID 
 java -jar hydrate-data-pusher-0.0.1-jar-with-dependencies.jar -um -b hydrate-resultant-bucket -k output/ -u output/ -i $HYDRATE_UUID
 
 #delte from quque
-curl -H "Content-Type: application/json" -X POST -d $HYDRATE_UUID http://$DOCKER_HOST:8080/mise-en-place/delete
+HYDRATE_UUID=$(echo ${HYDRATE_UUID//\"/})
+curl -H "Content-Type: text/plain" -X POST http://$DOCKER_HOST:8080/mise-en-place/delete?hydrateUUID=$HYDRATE_UUID
 
 #SNS NOTIFICATION
 #RESULT=$(curl -H "Content-Type: application/json" -X GET https://zde98x8x30.execute-api.us-east-1.amazonaws.com/dev/hydratation?uuid=$HYDRATE_UUID)
