@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ~/.rvm/scripts/rvm
+
 eval `ssh-agent`
 ./hsmclient-provisioner/hsmclient-setup.rb -b cloudhsm-ssh-keypair \
                                            -k hsm-client-key \
