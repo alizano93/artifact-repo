@@ -54,14 +54,14 @@ curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","para
 
 echo "*** 4.1 Running mkfs on loop device"
 
-curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","mkfs.ext4 /dev/loop2p1"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
+curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","mkfs.ext4 /dev/loop3"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
 
 
 echo "*** 5 Mounting loop device***"
 
 #mkdir /mnt/hydrate
 
-curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","mount -o loop /dev/loop2p1 /tmp/hydrate"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
+curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","mount -o loop /dev/loop3 /tmp/hydrate"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
 
 echo "*** 5.1 ls -lah on new /mnt/hydrate mount point***"
 ls -lah /tmp/hydrate
@@ -140,6 +140,10 @@ sleep 5
 #dd if=/dev/loop2 bs=512 | hexdump -C |grep -qi data && echo "found, something went wrong!"
 #sleep 1
 #dd if=/dev/loop2 bs=512 | hexdump -C
+
+curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","umount /tmp/hydrate"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
+
+rm -rf /tmp/hydrate/
 grep -zq . /dev/loop2 && echo "Found a none Zero!"
 
 
