@@ -10,3 +10,5 @@ eval `ssh-agent`
                                            -d /home/hsmclient \
                                            -i 10.0.201.209
 cd hydrate-security-module && ./test.sh
+
+cd ..

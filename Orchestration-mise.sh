@@ -8,6 +8,15 @@ rvm use 2.3.1 --default
 ruby -v
 gem install bundler
 
+source ~/.rvm/scripts/rvm
+
+eval `ssh-agent`
+./mise-en-place/hsmclient-provisioner/hsmclient-setup.rb -b cloudhsm-ssh-keypair \
+                                           -k hsm-client-key \
+                                           -u hsmclient \
+                                           -p passphrase.yml \
+                                           -d /home/hsmclient \
+                                           -i 10.0.201.209
 
 DOCKER_HOST=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
 DOCKER_CONTAINER=$HOSTNAME
@@ -78,12 +87,14 @@ java -jar audit-cli-client-0.0.1-jar-with-dependencies.jar -huuid $HYDRATE_UUID 
 
 #Data stager call
 java -jar hydrate-data-stager-0.0.1-jar-with-dependencies.jar -nItar -platform p2020 -env dev -catId $CATIDS -path /tmp/hydrate/nItar/
+./test.sh
 
 sleep 2
 g++ -o testRectifier testRectifier.cpp
 mkdir output
+HYDRATE_UUID=$(echo ${HYDRATE_UUID//\"/})
 echo "**** 8 Writing a file to tmpfs directory and heap/stack with a test process ****"
-./testRectifier $HYDRATE_TEMP_PATH/nItar/ output/ & PID=$!
+./testRectifier $HYDRATE_TEMP_PATH/nItar/ output/ $HYDRATE_UUID & PID=$!
 #echo "test" > $HYDRATE_TEMP_PATH/my_in_memory_file
 
 sleep 1
@@ -113,7 +124,7 @@ java -jar audit-cli-client-0.0.1-jar-with-dependencies.jar -huuid $HYDRATE_UUID 
 java -jar hydrate-data-pusher-0.0.1-jar-with-dependencies.jar -um -b hydrate-resultant-bucket -k output/ -u output/ -i $HYDRATE_UUID
 
 #delte from quque
-HYDRATE_UUID=$(echo ${HYDRATE_UUID//\"/})
+
 curl -H "Content-Type: text/plain" -X POST http://$DOCKER_HOST:8080/mise-en-place/delete?hydrateUUID=$HYDRATE_UUID
 
 #SNS NOTIFICATION

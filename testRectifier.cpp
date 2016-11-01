@@ -13,10 +13,11 @@ list<string> file_list;
 int main(int argc, char** argv){
   const char * arg = argv[1];
   string path = argv[2];
+  string name = argv[3];
     listFile("",arg);
 
     ofstream myOut;
-	string fullPath = path+"/test.1B";
+	string fullPath = path+"/"+name;
     myOut.open (fullPath.c_str(), ios::ate);
 
     for (list<string>::iterator it=file_list.begin(); it != file_list.end(); ++it){
