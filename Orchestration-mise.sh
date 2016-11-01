@@ -72,6 +72,7 @@ curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","para
 
 curl -H "Content-Type: application/json" -X POST -d '{"command" : "docker","parameters" : ["exec","--privileged","-u","root","'$HOSTNAME'","sh","-c","chown -R hsmclient:hsmclient /tmp/hydrate"],"context" : {"hostname" : "'$HOSTNAME'","task-id" : "'$TASK_ID'"}}' http://$DOCKER_HOST:8080/mise-en-place/run
 
+mkdir /tmp/hydrate/itar
 echo "*** 5.1 ls -lah on new /mnt/hydrate mount point***"
 ls -lah /tmp/hydrate
 
