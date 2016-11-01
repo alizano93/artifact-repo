@@ -71,7 +71,7 @@ RUN /bin/bash -l -c "gem install bundler"
 #RUN gem install bundler
 RUN mkdir $HOME/Orchestration
 WORKDIR $HOME/Orchestration
-RUN git clone https://github.com/alizano93/artifact-repo.git . && git fetch && git checkout miseEnPlace && chmod u+x Orchestration-mise.sh
+RUN git clone https://github.com/alizano93/artifact-repo.git . && git fetch && git checkout miseEnPlace && chmod u+x Orchestration-mise.sh && chmod u+x test.sh
 
 USER root
 COPY hsmclient-provisioner $HOME/hsmclient-provisioner
