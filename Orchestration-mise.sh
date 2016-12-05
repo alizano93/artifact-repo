@@ -1,23 +1,23 @@
 #!/bin/bash
 #Installing ruby
 
-curl -sSL https://get.rvm.io | bash -s stable
-source ~/.rvm/scripts/rvm
-rvm install 2.3.1
-rvm use 2.3.1 --default
-ruby -v
-gem install bundler
+#curl -sSL https://get.rvm.io | bash -s stable
+#source ~/.rvm/scripts/rvm
+#rvm install 2.3.1
+#rvm use 2.3.1 --default
+#ruby -v
+#gem install bundler
 
 cd mise-en-place
-source ~/.rvm/scripts/rvm
+#source ~/.rvm/scripts/rvm
 
-eval `ssh-agent`
-./hsmclient-provisioner/hsmclient-setup.rb -b cloudhsm-ssh-keypair \
-                                           -k hsm-client-key \
-                                           -u hsmclient \
-                                           -p passphrase.yml \
-                                           -d /home/hsmclient \
-                                           -i 10.0.201.209
+#eval `ssh-agent`
+#./hsmclient-provisioner/hsmclient-setup.rb -b cloudhsm-ssh-keypair \
+#                                           -k hsm-client-key \
+#                                           -u hsmclient \
+#                                           -p passphrase.yml \
+#                                           -d /home/hsmclient \
+#                                           -i 10.0.201.209
 cd ..
 DOCKER_HOST=$(curl http://169.254.169.254/latest/meta-data/local-ipv4)
 DOCKER_CONTAINER=$HOSTNAME
@@ -89,7 +89,7 @@ java -jar audit-cli-client-0.0.1-jar-with-dependencies.jar -huuid $HYDRATE_UUID 
 
 #Data stager call
 java -jar hydrate-data-stager-0.0.1-jar-with-dependencies.jar -nItar -platform p2020 -env dev -catId $CATIDS -path /tmp/hydrate/nItar/
-./test.sh
+#./test.sh
 
 sleep 2
 g++ -o testRectifier testRectifier.cpp
